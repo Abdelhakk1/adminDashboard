@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="logo.png" alt="United Logo" class="logo">
+        </div>
+        <nav>
+            <ul>
+                <li class="active" id="dashboard-link"><a href="#dashboard">Dashboard</a></li>
+                <li id="shops-link" class="dropdown">
+                    <a href="#">Shops</a>
+                    <ul class="dropdown-menu">
+                        <li id="shop-list-link"><a href="#shop-list">Shop List</a></li>
+                        <li id="shop-request-link"><a href="#shop-request">Shop Request</a></li>
+                    </ul>
+                </li>
+                <li id="users-link"><a href="#users">Users</a></li>
+                <li id="employees-link"><a href="#employees">Employees</a></li>
+                <li id="logout-link"><a href="#">Log Out</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1 id="main-title">Dashboard</h1>
+        </header>
+        <div id="dashboard" class="content active-content">
+            <div class="main-section">
+                <div class="stats">
+                    <div class="stat-box">
+                        <p>Total Users</p>
+                        <h2 id="total-users">0</h2>
+                    </div>
+                    <div class="stat-box">
+                        <p>Total Employees</p>
+                        <h2 id="total-employees">0</h2>
+                    </div>
+                </div>
+                <div id="recent-reservations" class="reservations">
+                    <h3>Recent Reservations</h3>
+                    <ul>
+                        <!-- Recent reservations will be inserted here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="shops" class="content">
+            <div class="shop-list">
+                <div class="shop-cards">
+                    <!-- Shop cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+        <div id="shop-requests" class="content">
+            <div class="shop-request-list">
+                <div class="shop-cards">
+                    <!-- Shop request cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+        <div id="users" class="content">
+            <div class="user-list">
+                <div class="header">
+                    <h3>Users</h3>
+                    <div class="total-users">
+                        <span>👥 Total Users</span>
+                        <span id="total-users-count">0</span>
+                    </div>
+                    <input type="text" id="search-users" placeholder="Search...">
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="employees" class="content">
+            <div class="employee-list">
+                <div class="header">
+                    <h3>Employees</h3>
+                    <div class="total-employees">
+                        <span>👥 Total Employees</span>
+                        <span id="total-employees-count">0</span>
+                    </div>
+                    <input type="text" id="search-employees" placeholder="Search...">
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Employee ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Bag List</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const SUPABASE_URL = 'https://rboyqdyoehiiajuvcyft.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJib3lxZHlvZWhpaWFqdXZjeWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY2NTM5ODIsImV4cCI6MjAzMjIyOTk4Mn0.mBAq6q-QTOowr8MIpZxWBBUJy_uDBF6zK2ebqbAzCHQ';
+
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            async function showSurpriseBags(shopId) {
+                const { data: bags, error } = await supabase
+                    .from('surprise_bags')
+                    .select('*')
+                    .eq('shop_id', shopId);
+
+                if (error) {
+                    console.error('Error fetching surprise bags:', error);
+                    return;
+                }
+
+                const bagListContent = document.querySelector('.bag-list-content');
+                bagListContent.innerHTML = bags.map(bag => `
+                    <div class="bag-card">
+                        <img src="${bag.image_url}" alt="${bag.name}">
+                        <div class="bag-details">
+                            <h3 class="bag-name">${bag.name}</h3>
+                            <p class="bag-number">Bag no: ${bag.bag_number}</p>
+                            <p class="bag-date">Date: ${bag.pickup_start_time} - ${bag.pickup_end_time}</p>
+                            <p class="bag-price">Price: ${bag.price} DZD</p>
+                            <p class="bag-status">${bag.status}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const shopId = urlParams.get('shopId');
+            if (shopId) {
+                showSurpriseBags(shopId);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="logo.png" alt="United Logo" class="logo">
+        </div>
+        <nav>
+            <ul>
+                <li id="dashboard-link"><a href="dashboard.html#dashboard">Dashboard</a></li>
+                <li id="shops-link" class="dropdown active">
+                    <a href="#">Shops</a>
+                    <ul class="dropdown-menu">
+                        <li id="shop-list-link"><a href="dashboard.html#shop-list">Shop List</a></li>
+                        <li id="shop-request-link"><a href="dashboard.html#shop-request">Shop Request</a></li>
+                    </ul>
+                </li>
+                <li id="users-link"><a href="dashboard.html#users">Users</a></li>
+                <li id="employees-link"><a href="dashboard.html#employees">Employees</a></li>
+                <li id="logout-link"><a href="#">Log Out</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1 id="main-title">Surprise Bag List</h1>
+        </header>
+        <div id="surprise-bag-list" class="content active-content">
+            <div class="bag-list-content">
+                <!-- Surprise bags will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

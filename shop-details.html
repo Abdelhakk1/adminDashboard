@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Details</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const SUPABASE_URL = 'https://rboyqdyoehiiajuvcyft.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJib3lxZHlvZWhpaWFqdXZjeWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY2NTM5ODIsImV4cCI6MjAzMjIyOTk4Mn0.mBAq6q-QTOowr8MIpZxWBBUJy_uDBF6zK2ebqbAzCHQ';
+
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            async function showShopDetails(shopId) {
+                console.log(`Fetching details for shop ID: ${shopId}`);
+                const { data: shop, error } = await supabase
+                    .from('shops')
+                    .select('*')
+                    .eq('id', shopId)
+                    .single();
+
+                if (error) {
+                    console.error('Error fetching shop details:', error);
+                    return;
+                }
+
+                console.log('Shop details:', shop);
+
+                const shopDetailsContent = document.querySelector('.shop-details-content');
+                shopDetailsContent.innerHTML = `
+                    <div class="shop-info">
+                        <div class="shop-header">
+                            <img src="${shop.shop_image_url || 'shop_image.jpg'}" alt="Shop Image" class="shop-image">
+                            <div class="shop-header-info">
+                                <h3>${shop.shop_name}</h3>
+                            </div>
+                        </div>
+                        <div class="shop-body">
+                            <h3>Information</h3>
+                            <p><strong>Address:</strong> ${shop.shop_address}</p>
+                            <p><strong>Shop Category:</strong> ${shop.shop_category}</p>
+                            <p><strong>Shop Opening Hour:</strong> ${new Date(shop.shop_opening_hour).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                            <p><strong>Shop Weekend:</strong> ${new Date(shop.shop_weekend).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                            <p><strong>About Shop:</strong> ${shop.about_shop}</p>
+                            <h3>Documents</h3>
+                            <a href="${shop.document_url}" class="document-link">Certificate.pdf</a>
+                        </div>
+                        <div class="shop-footer">
+                            <a href="surprise-bag-list.html?shopId=${shop.id}" class="action-button">Surprise Bag List</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const shopId = urlParams.get('shopId');
+            if (shopId) {
+                showShopDetails(shopId);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="logo.png" alt="United Logo" class="logo">
+        </div>
+        <nav>
+            <ul>
+                <li class="active" id="dashboard-link"><a href="dashboard.html#dashboard">Dashboard</a></li>
+                <li id="shops-link" class="dropdown">
+                    <a href="#">Shops</a>
+                    <ul class="dropdown-menu">
+                        <li id="shop-list-link"><a href="dashboard.html#shop-list">Shop List</a></li>
+                        <li id="shop-request-link"><a href="dashboard.html#shop-request">Shop Request</a></li>
+                    </ul>
+                </li>
+                <li id="users-link"><a href="dashboard.html#users">Users</a></li>
+                <li id="employees-link"><a href="dashboard.html#employees">Employees</a></li>
+                <li id="logout-link"><a href="#">Log Out</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1 id="main-title">Shop Details</h1>
+        </header>
+        <div id="shop-details" class="content active-content">
+            <div class="shop-details-content">
+                <!-- Shop details will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
